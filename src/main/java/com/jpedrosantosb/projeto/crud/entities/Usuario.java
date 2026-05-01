@@ -1,5 +1,7 @@
 package com.jpedrosantosb.projeto.crud.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +22,9 @@ public class Usuario {
 	@Email
 	private String email;
 
+	@JsonIgnore
+	private String senha;
+	
 	public Long getId() {
 		return id;
 	}
@@ -44,4 +49,12 @@ public class Usuario {
 		this.email = email;
 	}
 
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	
 }

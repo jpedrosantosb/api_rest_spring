@@ -21,4 +21,27 @@ public class UsuarioService {
 	public Usuario salvar(Usuario usuario) {
 		return repository.save(usuario);
 	}
+
+	public void deletar(Long id) {
+		if (!repository.existsById(id)) {
+			throw new RuntimeException("Usuário não encontrado com id: " + id);
+		}
+		repository.deleteById(id);
+	}
+
+	public Usuario atualizar(Long id, Usuario usuarioAtualizado) {
+
+		Usuario usuario = repository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + id));
+
+		usuario.setNome(usuarioAtualizado.getNome());
+		usuario.setEmail(usuarioAtualizado.getEmail());
+
+		// só atualiza senha se vier preenchida
+		if (usuarioAtualizado.getSenha() != null && !usuarioAtualizado.getSenha().isBlank()) {
+			usuario.setSenha(usuarioAtualizado.getSenha());
+		}
+
+		return repository.save(usuario);
+	}
 }
