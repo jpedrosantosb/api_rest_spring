@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jpedrosantosb.projeto.crud.entities.Usuario;
+import com.jpedrosantosb.projeto.crud.dto.UsuarioRequest;
+import com.jpedrosantosb.projeto.crud.dto.UsuarioResponse;
 import com.jpedrosantosb.projeto.crud.services.UsuarioService;
 
 import jakarta.validation.Valid;
@@ -26,12 +27,12 @@ public class UsuarioController {
 	private UsuarioService service;
 
 	@GetMapping
-	public ResponseEntity<List<Usuario>> listar() {
+	public ResponseEntity<List<UsuarioResponse>> listar() {
 		return ResponseEntity.ok(service.listar());
 	}
 
 	@PostMapping
-	public ResponseEntity<Usuario> salvar(@RequestBody @Valid Usuario usuario) {
+	public ResponseEntity<UsuarioResponse> salvar(@RequestBody @Valid UsuarioRequest usuario) {
 		return ResponseEntity.status(201).body(service.salvar(usuario));
 	}
 
@@ -42,7 +43,7 @@ public class UsuarioController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Usuario> atualizar(@PathVariable Long id, @RequestBody @Valid Usuario usuario) {
+	public ResponseEntity<UsuarioResponse> atualizar(@PathVariable Long id, @RequestBody @Valid UsuarioRequest usuario) {
 		return ResponseEntity.ok(service.atualizar(id, usuario));
 	}
 
