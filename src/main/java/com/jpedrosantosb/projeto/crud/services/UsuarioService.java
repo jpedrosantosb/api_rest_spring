@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jpedrosantosb.projeto.crud.entities.Usuario;
+import com.jpedrosantosb.projeto.crud.exceptions.RecursoNaoEncontradoException;
 import com.jpedrosantosb.projeto.crud.repositories.UsuarioRepository;
 
 @Service
@@ -24,7 +25,7 @@ public class UsuarioService {
 
 	public void deletar(Long id) {
 		if (!repository.existsById(id)) {
-			throw new RuntimeException("Usuário não encontrado com id: " + id);
+			throw new RecursoNaoEncontradoException("Usuário não encontrado com id: " + id);
 		}
 		repository.deleteById(id);
 	}
@@ -32,12 +33,11 @@ public class UsuarioService {
 	public Usuario atualizar(Long id, Usuario usuarioAtualizado) {
 
 		Usuario usuario = repository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + id));
+				.orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado com id: " + id));
 
 		usuario.setNome(usuarioAtualizado.getNome());
 		usuario.setEmail(usuarioAtualizado.getEmail());
 
-		// só atualiza senha se vier preenchida
 		if (usuarioAtualizado.getSenha() != null && !usuarioAtualizado.getSenha().isBlank()) {
 			usuario.setSenha(usuarioAtualizado.getSenha());
 		}

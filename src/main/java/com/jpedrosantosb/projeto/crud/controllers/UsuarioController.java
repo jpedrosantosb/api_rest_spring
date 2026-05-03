@@ -3,6 +3,7 @@ package com.jpedrosantosb.projeto.crud.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,22 +26,24 @@ public class UsuarioController {
 	private UsuarioService service;
 
 	@GetMapping
-	public List<Usuario> listar() {
-		return service.listar();
+	public ResponseEntity<List<Usuario>> listar() {
+		return ResponseEntity.ok(service.listar());
 	}
 
 	@PostMapping
-	public Usuario salvar(@RequestBody @Valid Usuario usuario) {
-		return service.salvar(usuario);
+	public ResponseEntity<Usuario> salvar(@RequestBody @Valid Usuario usuario) {
+		return ResponseEntity.status(201).body(service.salvar(usuario));
 	}
 
 	@DeleteMapping("/{id}")
-	public void deletar(@PathVariable Long id) {
+	public ResponseEntity<Void> deletar(@PathVariable Long id) {
 		service.deletar(id);
+		return ResponseEntity.noContent().build();
 	}
 
 	@PutMapping("/{id}")
-	public Usuario atualizar(@PathVariable Long id, @RequestBody @Valid Usuario usuario) {
-		return service.atualizar(id, usuario);
+	public ResponseEntity<Usuario> atualizar(@PathVariable Long id, @RequestBody @Valid Usuario usuario) {
+		return ResponseEntity.ok(service.atualizar(id, usuario));
 	}
+
 }
